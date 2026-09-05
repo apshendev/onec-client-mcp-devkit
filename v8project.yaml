@@ -30,7 +30,7 @@ tools:
   enterprise:
     additional-launch-keys:
       - /TESTMANAGER
-  edt-cli:
-    interactive-mode: true
+  edt_cli:
+    interactive-mode: false
 build:
   partialLoadThreshold: 20

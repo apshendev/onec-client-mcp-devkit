@@ -189,6 +189,10 @@ jobs:
         run: ibcmd infobase --data="$env:GITHUB_WORKSPACE/server-data" --db-path=file-db config import --extension=test_client export\test_client
         timeout-minutes: 5
 
+      - name: Import mcp_instruments extension
+        run: ibcmd infobase --data="$env:GITHUB_WORKSPACE/server-data" --db-path=file-db config import --extension=mcp_instruments exts\mcp-instruments\src
+        timeout-minutes: 5
+
       - name: Import tests extension
         run: ibcmd infobase --data="$env:GITHUB_WORKSPACE/server-data" --db-path=file-db config import --extension=tests export\tests
         timeout-minutes: 5
@@ -199,6 +203,10 @@ jobs:
 
       - name: Save test_client extension
         run: ibcmd infobase --data="$env:GITHUB_WORKSPACE/server-data" --db-path=file-db config save --extension=test_client binary\test_client.cfe
+        timeout-minutes: 5
+
+      - name: Save mcp_instruments extension
+        run: ibcmd infobase --data="$env:GITHUB_WORKSPACE/server-data" --db-path=file-db config save --extension=mcp_instruments binary\mcp_instruments.cfe
         timeout-minutes: 5
 
       - name: Save tests extension
@@ -289,6 +297,20 @@ jobs:
           ibcmd infobase --data="$GITHUB_WORKSPACE/server-data" --db-path=file-db config extension update --name=test_client --safe-mode=no --unsafe-action-protection=no
           set +e
           ibcmd infobase --data="$GITHUB_WORKSPACE/server-data" --db-path=file-db config apply --extension=test_client --force
+          apply_status=$?
+          set -e
+          if [ "$apply_status" -eq 102 ]; then
+            rm -f "$GITHUB_WORKSPACE/server-data/lock.pid"
+          elif [ "$apply_status" -ne 0 ]; then
+            exit "$apply_status"
+          fi
+
+      - name: Load mcp_instruments extension
+        run: |
+          ibcmd infobase --data="$GITHUB_WORKSPACE/server-data" --db-path=file-db config load --extension=mcp_instruments --force binary/mcp_instruments.cfe
+          ibcmd infobase --data="$GITHUB_WORKSPACE/server-data" --db-path=file-db config extension update --name=mcp_instruments --safe-mode=no --unsafe-action-protection=no
+          set +e
+          ibcmd infobase --data="$GITHUB_WORKSPACE/server-data" --db-path=file-db config apply --extension=mcp_instruments --force
           apply_status=$?
           set -e
           if [ "$apply_status" -eq 102 ]; then

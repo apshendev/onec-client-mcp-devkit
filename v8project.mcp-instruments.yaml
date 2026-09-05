@@ -1,0 +1,22 @@
+# Конфиг сборки расширения mcp_instruments (формат Designer XML, конфигуратор).
+# Отдельный конфиг: формат исходников в v8-runner глобален для конфига,
+# EDT-наборы основного v8project.yaml и Designer-набор здесь смешать нельзя.
+workPath: 'build'
+execution_timeout: 300000
+
+format: DESIGNER
+builder: IBCMD
+
+infobase:
+  connection: 'File=build/ib-mci'
+
+source-set:
+  - name: mci_host
+    type: CONFIGURATION
+    path: '.scratch/mcp-instruments/host/src'
+  - name: mcp_instruments
+    type: EXTENSION
+    path: 'exts/mcp-instruments/src'
+tools:
+  platform:
+    version: '8.3.27'

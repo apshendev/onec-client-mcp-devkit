@@ -19,6 +19,11 @@
       "type": "remote",
       "url": "http://localhost:8960/mcp",
     },
+    "1c-testclient-ib": {
+      "enabled": false,
+      "type": "remote",
+      "url": "http://localhost:9874/mcp",
+    },
   },
   "agent": {
     "plan": {
