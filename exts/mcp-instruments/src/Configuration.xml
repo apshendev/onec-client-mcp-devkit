@@ -59,17 +59,19 @@
 			<VendorInformationAddress/>
 			<ConfigurationInformationAddress/>
 		</Properties>
-		<ChildObjects>
-			<Language>Русский</Language>
-			<CommonModule>Мсп_ИнструментыМетаданныхСервер</CommonModule>
-			<CommonModule>Мсп_ИнструментыЗапросовСервер</CommonModule>
-			<CommonModule>Мсп_ИнструментыКодаСервер</CommonModule>
-			<CommonModule>Мсп_ИнструментыЖурналаСервер</CommonModule>
-			<CommonModule>Мсп_ИнструментыМетаданныхКлиент</CommonModule>
-			<CommonModule>Мсп_ИнструментыЗапросовКлиент</CommonModule>
-			<CommonModule>Мсп_ИнструментыКодаКлиент</CommonModule>
-			<CommonModule>Мсп_ИнструментыЖурналаКлиент</CommonModule>
-			<Subsystem>Инструменты_Мсп_Провайдеры</Subsystem>
-		</ChildObjects>
+	<ChildObjects>
+		<Language>Русский</Language>
+		<CommonModule>Мсп_ИнструментыМетаданныхСервер</CommonModule>
+		<CommonModule>Мсп_ИнструментыЗапросовСервер</CommonModule>
+		<CommonModule>Мсп_ИнструментыЖурналаСервер</CommonModule>
+		<CommonModule>Мсп_ИнструментыREPLСервер</CommonModule>
+		<CommonModule>Мсп_ИнструментыМетаданныхКлиент</CommonModule>
+		<CommonModule>Мсп_ИнструментыЗапросовКлиент</CommonModule>
+		<CommonModule>Мсп_ИнструментыКодаКлиент</CommonModule>
+		<CommonModule>Мсп_ИнструментыЖурналаКлиент</CommonModule>
+		<CommonModule>Мсп_ИнструментыREPLКлиент</CommonModule>
+		<CommonTemplate>Мспи_ШаблонОбработки</CommonTemplate>
+		<Subsystem>Инструменты_Мсп_Провайдеры</Subsystem>
+	</ChildObjects>
 	</Configuration>
 </MetaDataObject>

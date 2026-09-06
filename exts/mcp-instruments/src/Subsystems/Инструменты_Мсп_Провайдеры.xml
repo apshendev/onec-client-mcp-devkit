@@ -20,6 +20,7 @@
 				<xr:Item xsi:type="xr:MDObjectRef">CommonModule.Мсп_ИнструментыЗапросовКлиент</xr:Item>
 				<xr:Item xsi:type="xr:MDObjectRef">CommonModule.Мсп_ИнструментыКодаКлиент</xr:Item>
 				<xr:Item xsi:type="xr:MDObjectRef">CommonModule.Мсп_ИнструментыЖурналаКлиент</xr:Item>
+				<xr:Item xsi:type="xr:MDObjectRef">CommonModule.Мсп_ИнструментыREPLКлиент</xr:Item>
 			</Content>
 		</Properties>
 		<ChildObjects/>
