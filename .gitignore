@@ -12,6 +12,7 @@ Thumbs.db
 *.log.*.gz
 *.tmp
 *.bak
+docs/history.md
 
 # Env files
 .env
@@ -26,3 +27,6 @@ Thumbs.db
 .codex-mount
 
 build
+.build/
+.scratch/
+vendor/**

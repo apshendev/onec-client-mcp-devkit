@@ -1,0 +1,14 @@
+# Конфиг лайв-теста MCP в пустой базе (этап 5А плана port-mcp-1c-tools).
+# Без source-set: хост-конфигурация грузится из .cf, расширения — из .cfe.
+workPath: 'build'
+execution_timeout: 300000
+
+format: DESIGNER
+builder: IBCMD
+
+infobase:
+  connection: 'File=build/ib-live'
+source-set: []
+tools:
+  platform:
+    version: '8.3.27'
