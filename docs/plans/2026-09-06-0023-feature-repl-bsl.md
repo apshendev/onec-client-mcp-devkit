@@ -145,6 +145,8 @@ MCP-клиент
 
 **Критерий:** сборка зелёная; изменения закоммичены в ветку; в master не мержить (решение о мерже — за пользователем).
 
+> **Выполнено:** 2026-09-06T06:57:41+03:00 — сборка mcp_instruments.cfe (ibcmd import+save из exts/mcp-instruments/src в контуре ib-mci; unica make для mci-контура неприменим — artifacts только DESIGNER) применена в тестовую и live-базы (apply exit=0); tests.cfe собирается только в CI (EDT-формат, локально EDT отсутствует). Точечная валидация: YaxUnit 11/11 (ib-repl2), live-прогон 9/9 (ib-live); полный syntax-check не запускался. Коммиты в feature/mcp-repl-bsl: 92d2957 (feat: REPL mcp-instruments), a93ac1e (test: ОМ_REPL), ec53620 (docs: замена validate_bsl_code на REPL); в master не мержено.
+
 ## Вне объёма (не делаем)
 
 - Фоновые задания, task-режим, таймауты, вытеснение, `repl_alive`/`timeout` в контракте.
