@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mdclass:CommonModule xmlns:mdclass="http://g5.1c.ru/v8/dt/metadata/mdclass" uuid="81d29966-3f76-4e2b-86a2-4be37a4e7e66">
+  <name>ОМ_REPL</name>
+  <synonym>
+    <key>ru</key>
+    <value>MCP REPL тесты</value>
+  </synonym>
+  <clientManagedApplication>true</clientManagedApplication>
+  <clientOrdinaryApplication>true</clientOrdinaryApplication>
+</mdclass:CommonModule>
