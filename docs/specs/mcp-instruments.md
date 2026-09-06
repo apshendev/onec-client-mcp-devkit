@@ -1,6 +1,6 @@
 # Расширение mcp_instruments: порт инструментов mcp-1c
 
-Расширение `exts/mcp-instruments` (модули `Мсп_Инструменты*`, NamePrefix `Мспи_`) — провайдер client_mcp: переносит 8 инструментов
+Расширение `exts/mcp-instruments` (модули и макет `Мсп_Инструменты*`, NamePrefix `Мсп_Инструменты`) — провайдер client_mcp: переносит 8 инструментов
 и 11 промптов Go-сервера `mcp-1c` (vendor/1c-mcp-HTTP+GO) на платформу `client_mcp` без Go-части и HTTP-обвязки,
 плюс REPL-песочница BSL (`repl_create`/`repl_eval`/`repl_close`, контракт — [repl.md](repl.md); заменила дефектный
 `validate_bsl_code`, см. [ADR-0004](../decisions/0004-repl-instead-of-validate-bsl-code.md)).
@@ -37,7 +37,7 @@
 | get_event_log | Мсп_ИнструментыЖурналаКлиент | Мсп_ИнструментыЖурналаСервер.СобытияЖурнала | ЖурналРегистрацииPOST; tools/event_log.go |
 
 Инструменты REPL (`repl_create`/`repl_eval`/`repl_close`) — не порт: серверная логика `Мсп_ИнструментыREPLСервер`
-(включая EPF-движок на макете `Мспи_ШаблонОбработки`), контракт — [repl.md](repl.md).
+(включая EPF-движок на макете `Мсп_ИнструментыШаблонОбработки`), контракт — [repl.md](repl.md).
 
 Имена инструментов и промптов сохранены 1:1. Форма JSON-ответов соответствует структурам `onec/types.go`
 (ключи английские, как в Go). Ошибки валидации — тексты Go через `Мсп_Сервер.ОшибкаИнструмента("INVALID_PARAMS"|"NOT_FOUND"|"ACTION_DENIED"|"ACTION_FAILED", …)`.

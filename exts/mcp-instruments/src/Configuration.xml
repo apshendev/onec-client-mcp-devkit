@@ -37,13 +37,13 @@
 			<Synonym>
 				<v8:item>
 					<v8:lang>ru</v8:lang>
-					<v8:content>MCP инструменты (Мспи)</v8:content>
+					<v8:content>MCP инструменты (Мсп_Инструменты)</v8:content>
 				</v8:item>
 			</Synonym>
 			<Comment>Инструменты mcp-1c как подсистема провайдеров client_mcp</Comment>
 			<ConfigurationExtensionPurpose>AddOn</ConfigurationExtensionPurpose>
 			<KeepMappingToExtendedConfigurationObjectsByIDs>true</KeepMappingToExtendedConfigurationObjectsByIDs>
-			<NamePrefix>Мспи_</NamePrefix>
+			<NamePrefix>Мсп_Инструменты</NamePrefix>
 			<ConfigurationExtensionCompatibilityMode>Version8_3_20</ConfigurationExtensionCompatibilityMode>
 			<DefaultRunMode>ManagedApplication</DefaultRunMode>
 			<UsePurposes>
@@ -70,7 +70,7 @@
 		<CommonModule>Мсп_ИнструментыКодаКлиент</CommonModule>
 		<CommonModule>Мсп_ИнструментыЖурналаКлиент</CommonModule>
 		<CommonModule>Мсп_ИнструментыREPLКлиент</CommonModule>
-		<CommonTemplate>Мспи_ШаблонОбработки</CommonTemplate>
+		<CommonTemplate>Мсп_ИнструментыШаблонОбработки</CommonTemplate>
 		<Subsystem>Инструменты_Мсп_Провайдеры</Subsystem>
 	</ChildObjects>
 	</Configuration>
