@@ -155,6 +155,13 @@ def probe_endpoint(url: str) -> list[str]:
     )
     data = result_json(require_ok(response))
     require(isinstance(data.get("Платформа"), dict), "infobase_info has no platform data")
+    require(data.get("Конфигурация", {}).get("Имя"), "infobase_info has empty configuration name in thin client")
+    require(data.get("ВстроенныйЯзык") in ("ru", "en"), "infobase_info has empty script variant in thin client")
+    require(data.get("РасширенияДоступны") is True, "infobase_info extensions are unavailable in thin client")
+    require(
+        any(extension.get("Имя") == "client_mcp" for extension in data.get("Расширения", [])),
+        "infobase_info extensions list has no client_mcp",
+    )
     passed.append("tools/call infobase_info")
 
     return passed
