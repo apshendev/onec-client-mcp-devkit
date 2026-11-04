@@ -25,6 +25,7 @@
 
 - Исходники каждого source-set'а лежат в подкаталоге `src/` с подкаталогами по видам метаданных (`Configuration`, `CommonModules`, `CommonTemplates`, `Subsystems`, `CommonForms`, `CommonCommands`, `Roles`, `DataProcessors`, `CommonPictures`).
 - Сборочные артефакты — в `build/` (в git не хранится): файлы `.cfe` для расширений, `.cf` для конфигурации.
+- `client_mcp` собирается только из исходников конфигуратора (Designer XML) в `exts/client-mcp/src` — `Configuration.xml`, `*.xml`, `Ext/Module.bsl` — через `ibcmd config import`/`config save` в пустой базе; так же собирают CI (задача `build_client_mcp`) и `release.yml`. EDT-файлы (`*.mdo`, `Configuration/Configuration.mdo`) в `exts/client-mcp` не используются и не обновляются.
 - `uat/mcp-protocol/` — приёмочные тесты протокола MCP на python (`run.py`, `run-autostart.py`, сценарии в `scenarios.md`).
 - `scripts/` — служебные скрипты: `update-web-transport.sh` обновляет макет внешней компоненты WebTransport.
 
