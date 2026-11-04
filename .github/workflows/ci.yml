@@ -88,7 +88,7 @@ jobs:
           echo "EDT_CLI=$edt_cli" >> "$GITHUB_ENV"
 
       - name: Prepare export directories
-        run: mkdir -p export/configuration export/client_mcp export/test_client export/tests
+        run: mkdir -p export/configuration export/test_client export/tests
 
       - name: Export EDT sources
         run: |
@@ -125,7 +125,6 @@ jobs:
           }
 
           export_project fixtures/configuration export/configuration
-          export_project exts/client-mcp export/client_mcp
           export_project exts/test_client export/test_client
           export_project tests export/tests
         timeout-minutes: 20
@@ -143,9 +142,49 @@ jobs:
           if-no-files-found: error
           retention-days: 1
 
+  build_client_mcp:
+    name: Build client_mcp
+    runs-on: windows-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        shell: pwsh
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - name: Install 1C:Enterprise
+        uses: 1CDevFlow/onec-setup-action@e1cd5937cb951c3cdeda4bf482f89da5f5e0b148
+        with:
+          type: onec
+          onec_version: ${{ env.V8_VERSION }}
+          cache: true
+        env:
+          ONEC_USERNAME: ${{ secrets.ONEC_USERNAME }}
+          ONEC_PASSWORD: ${{ secrets.ONEC_PASSWORD }}
+        timeout-minutes: 15
+
+      # client_mcp собирается из исходников конфигуратора (Designer XML) без EDT.
+      - name: Build client_mcp extension
+        run: |
+          mkdir binary
+          mkdir server-data
+          ibcmd infobase --data="$env:GITHUB_WORKSPACE/server-data" --db-path=file-db create
+          ibcmd infobase --data="$env:GITHUB_WORKSPACE/server-data" --db-path=file-db config import --extension=client_mcp exts\client-mcp\src
+          ibcmd infobase --data="$env:GITHUB_WORKSPACE/server-data" --db-path=file-db config save --extension=client_mcp binary\client_mcp.cfe
+        timeout-minutes: 10
+
+      - name: Upload client_mcp artifact
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: client_mcp-cfe
+          path: binary\client_mcp.cfe
+          if-no-files-found: error
+
   build_artifacts:
     name: Build artifacts
-    needs: export_to_designer
+    needs: [export_to_designer, build_client_mcp]
     runs-on: windows-latest
     timeout-minutes: 40
     defaults:
@@ -169,10 +208,15 @@ jobs:
         with:
           name: designer-src
 
+      - name: Download client_mcp artifact
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: client_mcp-cfe
+          path: binary
+
       - name: Unpack Designer sources
         run: |
           mkdir export
-          mkdir binary
           mkdir server-data
           cd export
           7z x ../export.7z -y
@@ -181,8 +225,8 @@ jobs:
         run: ibcmd infobase --data="$env:GITHUB_WORKSPACE/server-data" --db-path=file-db create --import=export\configuration --apply --force
         timeout-minutes: 5
 
-      - name: Import client_mcp extension
-        run: ibcmd infobase --data="$env:GITHUB_WORKSPACE/server-data" --db-path=file-db config import --extension=client_mcp export\client_mcp
+      - name: Load client_mcp extension
+        run: ibcmd infobase --data="$env:GITHUB_WORKSPACE/server-data" --db-path=file-db config load --extension=client_mcp binary\client_mcp.cfe
         timeout-minutes: 5
 
       - name: Import test_client extension
@@ -195,10 +239,6 @@ jobs:
 
       - name: Import tests extension
         run: ibcmd infobase --data="$env:GITHUB_WORKSPACE/server-data" --db-path=file-db config import --extension=tests export\tests
-        timeout-minutes: 5
-
-      - name: Save client_mcp extension
-        run: ibcmd infobase --data="$env:GITHUB_WORKSPACE/server-data" --db-path=file-db config save --extension=client_mcp binary\client_mcp.cfe
         timeout-minutes: 5
 
       - name: Save test_client extension

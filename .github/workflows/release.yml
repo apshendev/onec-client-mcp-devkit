@@ -14,7 +14,6 @@ permissions:
 
 env:
   V8_VERSION: 8.3.20.1549
-  EDT_VERSION: 2025.2.3
   LANG: ru_RU.UTF-8
 
 jobs:
@@ -32,74 +31,8 @@ jobs:
           set -euo pipefail
           sudo apt-get update
           sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
-            locales \
-            xvfb \
-            x11-utils
+            locales
           sudo localedef -i ru_RU -c -f UTF-8 -A /usr/share/locale/locale.alias ru_RU.UTF-8
-
-      - name: Install 1C:EDT
-        uses: 1CDevFlow/onec-setup-action@e1cd5937cb951c3cdeda4bf482f89da5f5e0b148
-        with:
-          type: edt
-          edt_version: ${{ env.EDT_VERSION }}
-          cache: false
-        env:
-          ONEC_USERNAME: ${{ secrets.ONEC_USERNAME }}
-          ONEC_PASSWORD: ${{ secrets.ONEC_PASSWORD }}
-        timeout-minutes: 30
-
-      - name: Prepare EDT CLI
-        run: |
-          set -euo pipefail
-          edt_cli="$(command -v 1cedtcli.sh || true)"
-          if [ -z "$edt_cli" ]; then
-            edt_cli="$(command -v 1cedtcli || true)"
-          fi
-          if [ -z "$edt_cli" ]; then
-            edt_cli="$(find /opt/1C -type f \( -name 1cedtcli.sh -o -name 1cedtcli \) -print -quit)"
-          fi
-          if [ -z "$edt_cli" ]; then
-            echo "EDT CLI not found" >&2
-            find /opt/1C -type f -name '1cedtcli*' -print >&2 || true
-            exit 1
-          fi
-          echo "EDT_CLI=$edt_cli" >> "$GITHUB_ENV"
-
-      - name: Export EDT sources
-        run: |
-          set -euo pipefail
-          workspace="$RUNNER_TEMP/ws"
-
-          show_diagnostics() {
-            ps -ef | grep -E '1cedt|java|eclipse' | grep -v grep || true
-            find "$workspace" -path '*/.metadata/.log' -type f -print -exec tail -200 {} \; || true
-          }
-
-          wait_for_export() {
-            export_path="$1"
-            for _ in $(seq 1 60); do
-              if find "$export_path" -type f -print -quit | grep -q .; then
-                return 0
-              fi
-              sleep 2
-            done
-            echo "$export_path is empty" >&2
-            show_diagnostics
-            exit 1
-          }
-
-          export_project() {
-            source_path="$1"
-            export_path="$2"
-            rm -rf "$export_path"
-            mkdir -p "$export_path"
-            xvfb-run -a "$EDT_CLI" -data "$workspace" -timeout 900 -v -command export --configuration-files "$PWD/$export_path" --project "$PWD/$source_path"
-            wait_for_export "$export_path"
-          }
-
-          export_project fixtures/configuration export/configuration
-          export_project exts/client-mcp export/client_mcp
-        timeout-minutes: 20
 
       - name: Install 1C:Enterprise
         uses: 1CDevFlow/onec-setup-action@e1cd5937cb951c3cdeda4bf482f89da5f5e0b148
@@ -117,8 +50,8 @@ jobs:
           set -euo pipefail
           mkdir -p dist
           mkdir -p server-data
-          ibcmd infobase --data="$GITHUB_WORKSPACE/server-data" --db-path=file-db create --import=export/configuration --apply --force
-          ibcmd infobase --data="$GITHUB_WORKSPACE/server-data" --db-path=file-db config import --extension=client_mcp export/client_mcp
+          ibcmd infobase --data="$GITHUB_WORKSPACE/server-data" --db-path=file-db create
+          ibcmd infobase --data="$GITHUB_WORKSPACE/server-data" --db-path=file-db config import --extension=client_mcp exts/client-mcp/src
           ibcmd infobase --data="$GITHUB_WORKSPACE/server-data" --db-path=file-db config save --extension=client_mcp dist/client_mcp.cfe
         timeout-minutes: 15
 

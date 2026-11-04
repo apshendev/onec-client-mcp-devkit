@@ -67,7 +67,7 @@
 			</UsePurposes>
 			<ScriptVariant>Russian</ScriptVariant>
 			<Vendor/>
-			<Version>0.6.5</Version>
+			<Version>0.6.7</Version>
 			<BriefInformation/>
 			<DetailedInformation/>
 			<Copyright/>
@@ -81,6 +81,7 @@
 			<CommonModule>Мсп_ГлобальныеОбработчикиКлиент</CommonModule>
 			<CommonModule>Мсп_ЗадачиКлиент</CommonModule>
 			<CommonModule>Мсп_ИнструментИнфоИБКлиент</CommonModule>
+			<CommonModule>Мсп_ИнструментИнфоИБВызовСервера</CommonModule>
 			<CommonModule>Мсп_Коллекции</CommonModule>
 			<CommonModule>Мсп_ЛогированиеКлиент</CommonModule>
 			<CommonModule>Мсп_МетаданныеСервер</CommonModule>
